@@ -1,0 +1,10 @@
+{
+  "remoteaddr": "serverhost:port",
+  "localaddr": "192.168.99.1:1024",
+  "key": "password",
+  "crypt": "aes",
+  "mode": "fast2",
+  "nocomp": true,
+  "sndwnd": 256,
+  "dscp": 64
+}

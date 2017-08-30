@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Kcptun</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="renderer" content="webkit">
+    		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="stylesheet" href="/newifi/css/bootstrap.css">	
+		<link rel="stylesheet" href="bootstrap-switch.css">
+		<link href="/newifi/css/controls.css" rel="stylesheet">
+		
+
+		<script type="text/javascript" src="/newifi/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="/newifi/bootstrap.js"></script>
+		<script type="text/javascript" src="bootstrap-switch.js"></script>
+		
+
+		<style type='text/css'>
+			*{
+				margin: 0px;
+				padding: 0px;
+				font-family:'微软雅黑';
+				/*font-size: 13px;
+				color: #656565;*/
+			}
+			body{
+				background:white;
+				margin: 0px;
+			}
+			.author{
+				width: 150px;
+				font-size: 14px;
+				text-align: right;
+				color: #666;
+			}
+			.progress{
+				display:none;
+			}
+			.runstatus{
+				margin-top:1px;
+				margin-left:58%;
+				font-size: 16px;
+			}
+			.start_thread,.stop_thread{
+				margin-left:15px;
+				float:left;
+			}
+			.downloadbox{
+				 border-color:#ccc; 
+				 border-width:1px; 
+				 border-top-style:solid;
+				 border-bottom-style:solid;
+				 border-left-style:none; 
+				 border-right-style:none; 
+				 height:70px;
+			}
+			.downloadpcapp{
+				float:left;
+				margin-left:5px;
+				margin-top: 2px;
+			}
+			.cpiRow10{
+				overflow: hidden;
+			}
+			.cpiSwitch{
+				margin-top: 150px;
+			}
+			fieldset {
+				background-color:transparent;
+				margin: auto;
+				margin-bottom: 9px;
+				padding-top: 9px;
+				border: 0;
+			}
+			fieldset legend {
+				display: block;
+				font-size: 19.5px;
+				line-height: 1;
+				color: #404040;
+				padding-top: 20px;
+				margin-bottom: 20px;
+				*padding: 0 0 5px 0px;
+				/* IE6-7 */
+				*line-height: 1.5;
+				/* IE6-7 */
+			}
+			input,select{
+				display: inline-block;
+				height: 30px;
+				width: 250px;
+				border-radius: 3px;
+				border: 1px solid #ccc;
+				color: #666;
+				text-indent: 6px;
+				box-sizing: border-box;
+			}
+			textarea{
+				display: inline-block;
+				height:auto;
+				width: 250px;
+				border-radius: 3px;
+				border: 1px solid #ccc;
+				font-family:'微软雅黑';
+				font-size: 13px;
+				color: #656565;
+				box-sizing: border-box;
+			}
+			.demo_value{
+				display: block;
+				margin-bottom: 20px;
+			}
+			.demo_value:before,.demo_value:after{
+				display: table;
+				content: "";
+				zoom: 1;
+			}
+			.demo_value_title{
+				padding-top: 6px;
+				font-size: 13px;
+				line-height: 18px;
+				float: left;
+				width: 180px;
+				text-align: right;
+				color: #404040;
+			}
+			.demo_value_description{
+				display: inline;
+				font-family: "微软雅黑";
+				color: #666;
+				font-size: 14px;
+				line-height: 21px;
+			}
+			.demo_value_description img{
+				vertical-align: middle;
+			}
+			.demo_value_field{
+				margin-left: 200px;
+			}
+			.input_checkbox{
+				width: 14px;
+				height: 14px;
+				border-radius: 3px;
+				border:1px solid #cbcbcb;
+				margin-top: 6px!important;
+			}
+			.demo_content{
+				width: 94%;
+				margin: auto;
+			}
+			.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-danger, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-danger {
+			    color: #fff;
+			    background: #4F9FD9;
+			}
+			#toast-container > .toast-success{
+    				margin-left: 680px;
+    				width: 260px;
+			}
+			#toast-container > .toast-info{
+					margin-left: 680px;
+    				width: 260px;
+			}
+			.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label{
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body style="overflow: hidden;">
+		<div class="demo_content row cpiRow10">
+
+			<!--左边部分-->
+			<div class="col-sm-8" style="height: 240px;">
+				<fieldset>
+					<legend>插件设置</legend>
+					
+					<div class="demo_value">
+						<label class='demo_value_title'>Kcptun:</label>
+						<div class="demo_value_field">
+							<input id="switch-state" type="checkbox" class="switch-off" data-on-color="success" data-off-color="danger"  onchange="changeState()" >
+							<br/>
+						</div>
+
+					</div>
+				</fieldset>
+			</div>	
+
+		</div>
+	</div>
+				<!-- progress -->
+					<div class='progress'>
+						<div class="plugin-modal" id="plugin_modal" ></div>
+						<div class="modal fade wide in" aria-hidden="false" style="display: block;overflow-y:hidden;"><div class="modal-dialog pop-dialog" style="margin-top: 77px; max-width: 300px;"><div class="modal-content pop-content" 
+						><div class="modal-title pop-title"></div><div class="modal-body pop-body"><div><div class="pop-body-ingstyle"><div class="ingstyle-icon icon-refresh"></div><p class="ingstyle-text">正在处理，请稍候...</p></div></div></div><div class="modal-foot pop-foot"></div></div></div></div>
+
+					</div>
+		
+		
+
+	</body>
+	<script type='text/javascript'>
+		
+		// 获取session id
+		var L = top.L;
+
+		// 获取ubus_rpc_session
+		var sessionid = L.globals.sid;
+
+		//插件id
+		var appid = '160100252';
+		var ready = 0;
+		
+		function changeState(){
+			if (ready == 0) return;
+			
+			if ($('#switch-state').bootstrapSwitch('state')==true){
+				$('.progress').show();
+					L.xapi.appCmd(appid,'start').then(function(ret){
+						var tmp = JSON.parse(ret.appcmd.data);
+						$('.progress').hide();
+					});
+			}
+
+			if ($('#switch-state').bootstrapSwitch('state')==false){
+				$('.progress').show();
+				L.xapi.appCmd(appid,'stop').then(function(ret){
+					var tmp = JSON.parse(ret.appcmd.data);
+					$('.progress').hide();
+				});
+			}	
+		}
+
+		function getStatus(){
+				L.xapi.appCmd(appid,'status').then(function(ret){
+					var tmp = JSON.parse(ret.appcmd.data);
+					$('#switch-state').bootstrapSwitch('state', tmp);
+					ready = 1
+				});
+		}
+		getStatus();
+		
+	</script>
+</html>

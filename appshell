@@ -1,0 +1,78 @@
+#!/bin/sh
+set -x
+Parameter_one=$1
+Parameter_two=$2
+PathNow=$(dirname $0)
+PathInstall="/opt/app"
+PluginName="Kcptun"
+BinName="kcptun"
+#
+#
+Start()
+{
+  Stop
+  ($PathNow/bin/$BinName -c $PathNow/etc/kcptun.json > /dev/null 2>&1 &)
+  return $?
+}
+
+Stop()
+{
+  pid=$(ps | grep /bin/$BinName | grep -v grep | awk '{print $1}')
+  if [ -z "$pid" ]; then
+    return 1
+  else
+    kill -15 $pid
+    return $?
+  fi
+}
+
+Status()
+{
+  pid=$(ps | grep /bin/$BinName | grep -v grep | awk '{print $1}')
+  if [ -z "$pid" ]; then
+    echo 0
+  else
+    echo 1
+  fi
+}
+
+#
+Appcmd()
+{
+  local L_ExitStatus=0
+  
+  if [ "$Parameter_two" == 'start' ]; then
+    Start
+    L_ExitStatus=$?
+    if [ "${L_ExitStatus}" == 0 ];then echo 1; else echo 0; fi
+  elif [ "$Parameter_two" == "stop" ]; then 
+    Stop
+    L_ExitStatus=$?
+    if [ "${L_ExitStatus}" == 0 ];then echo 1; else echo 0; fi
+  elif [ "$Parameter_two" == "status" ]; then 
+    data=$(Status)
+    L_ExitStatus=$?
+    echo "${data}"
+  fi
+  return ${L_ExitStatus}
+}
+
+#主函数
+Main()
+{	
+	if [ "${Parameter_one}" = "start" ];then
+		Start
+	elif [ "${Parameter_one}" = "stop" ];then
+		Stop
+	elif [ "${Parameter_one}" = "status" ];then
+		Status
+  elif [ "${Parameter_one}" = "appcmd" ];then
+    Appcmd 
+	#输入参数错误
+	else
+		echo "ERR:Parameter Err."
+		exit 1	
+	fi
+}
+
+Main
